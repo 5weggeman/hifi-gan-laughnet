@@ -23,12 +23,15 @@ Visit our [demo website](https://jik876.github.io/hifi-gan-demo/) for audio samp
 
 
 ## Pre-requisites
-1. Python >= 3.6
+1. Python >= 3.9.5
 2. Clone this repository.
 3. Install python requirements. Please refer [requirements.txt](requirements.txt)
-4. Download and extract the [LJ Speech dataset](https://keithito.com/LJ-Speech-Dataset/).
-And move all wav files to `LJSpeech-1.1/wavs`
+4. Download and extract the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443).
 
+## Preprocessing
+```
+python preprocessing.py
+```
 
 ## Training
 ```
@@ -38,28 +41,12 @@ To train V2 or V3 Generator, replace `config_v1.json` with `config_v2.json` or `
 Checkpoints and copy of the configuration file are saved in `cp_hifigan` directory by default.<br>
 You can change the path by adding `--checkpoint_path` option.
 
+-------------------------------------------------------------------------------------------------------------------------------
+Below will be updated later:
+
+
 Validation loss during training with V1 generator.<br>
 ![validation loss](./validation_loss.png)
-
-## Pretrained Model
-You can also use pretrained models we provide.<br/>
-[Download pretrained models](https://drive.google.com/drive/folders/1-eEYTB5Av9jNql0WGBlRoi-WH2J7bp5Y?usp=sharing)<br/> 
-Details of each folder are as in follows:
-
-|Folder Name|Generator|Dataset|Fine-Tuned|
-|------|---|---|---|
-|LJ_V1|V1|LJSpeech|No|
-|LJ_V2|V2|LJSpeech|No|
-|LJ_V3|V3|LJSpeech|No|
-|LJ_FT_T2_V1|V1|LJSpeech|Yes ([Tacotron2](https://github.com/NVIDIA/tacotron2))|
-|LJ_FT_T2_V2|V2|LJSpeech|Yes ([Tacotron2](https://github.com/NVIDIA/tacotron2))|
-|LJ_FT_T2_V3|V3|LJSpeech|Yes ([Tacotron2](https://github.com/NVIDIA/tacotron2))|
-|VCTK_V1|V1|VCTK|No|
-|VCTK_V2|V2|VCTK|No|
-|VCTK_V3|V3|VCTK|No|
-|UNIVERSAL_V1|V1|Universal|No|
-
-We provide the universal model with discriminator weights that can be used as a base for transfer learning to other datasets.
 
 ## Fine-Tuning
 1. Generate mel-spectrograms in numpy format using [Tacotron2](https://github.com/NVIDIA/tacotron2) with teacher-forcing.<br/>

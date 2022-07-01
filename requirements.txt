@@ -1,4 +1,7 @@
-torch==1.4.0
+SoX==14.4.2
+CUDA==10.2.89
+torch==1.11.0
+torchaudio==0.11.0
 numpy==1.17.4
 librosa==0.7.2
 scipy==1.4.1
