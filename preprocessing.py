@@ -45,9 +45,9 @@ def preprocessing(sl):
 if a.data == "VCTK":
 #Preprocessing the VCTK dataset
   path=path_core+"wav48_silence_trimmed"
-  path_out=path_core+"hifi-gan/VCTK-0.92/wavs"
-  path_tr=path_core+"hifi-gan/VCTK-0.92/training.txt"
-  path_val=path_core+"hifi-gan/VCTK-0.92/validation.txt"
+  path_out=path_core+"hifi-gan-laughnet/VCTK-0.92/wavs"
+  path_tr=path_core+"hifi-gan-laughnet/VCTK-0.92/training.txt"
+  path_val=path_core+"hifi-gan-laughnet/VCTK-0.92/validation.txt"
   
   #Creating a directory list containing all the file paths
   dir_list=os.listdir(path)
