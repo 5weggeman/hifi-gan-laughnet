@@ -27,6 +27,8 @@ Visit our [demo website](https://jik876.github.io/hifi-gan-demo/) for audio samp
 2. Clone this repository.
 3. Install python requirements. Please refer [requirements.txt](requirements.txt)
 4. Download and extract the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443).
+5. Change the path_core in [preprocessing.py](preprocessing.py) (Line 16) to the path to the base folder in which you cloned this repository. 
+6. Change the path in [preprocessing.py](preprocessing.py) (Line 47) to the path to the unzipped VCTK dataset folder.
 
 ## Preprocessing
 ```
