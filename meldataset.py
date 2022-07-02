@@ -140,7 +140,7 @@ class MelDataset(torch.utils.data.Dataset):
             #mel = mel_spectrogram(audio, self.n_fft, self.num_mels,
             #                      self.sampling_rate, self.hop_size, self.win_size, self.fmin, self.fmax,
             #                      center=False)
-            ws = quant_ws(audio, self.win_size, self.hop_size)
+            ws = quant_ws(audio, self.win_size, self.hop_size).float()
             #ws = ws*random.uniform(0.3, 1.0)
 
             mel_loss = mel_spectrogram(audio, self.n_fft, self.num_mels,
