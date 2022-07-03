@@ -1,11 +1,11 @@
-Pillow==6.2.1
-Python==3.7.4
+Pillow==9.1.0
+Python==3.9.5
 SoX==14.4.2
 CUDA==10.2.89
-librosa==0.7.2
 torch==1.11.0
 torchaudio==0.11.0
 numpy==1.17.4
+librosa==0.7.2
 scipy==1.4.1
 tensorboard==2.0
 soundfile==0.10.3.post1
