@@ -7,7 +7,6 @@ import numpy as np
 from librosa.util import normalize
 from scipy.io.wavfile import read
 from librosa.filters import mel as librosa_mel_fn
-from notebook import quant_ws
 
 MAX_WAV_VALUE = 32768.0
 
@@ -137,17 +136,9 @@ class MelDataset(torch.utils.data.Dataset):
                 else:
                     audio = torch.nn.functional.pad(audio, (0, self.segment_size - audio.size(1)), 'constant')
 
-            #mel = mel_spectrogram(audio, self.n_fft, self.num_mels,
-            #                      self.sampling_rate, self.hop_size, self.win_size, self.fmin, self.fmax,
-            #                      center=False)
-            ws = quant_ws(audio, self.win_size, self.hop_size).float()
-
-            mel_loss = mel_spectrogram(audio, self.n_fft, self.num_mels,
-                                   self.sampling_rate, self.hop_size, self.win_size, self.fmin, self.fmax_loss,
-                                   center=False)
-
-            return (ws.squeeze(), audio.squeeze(0), filename, mel_loss.squeeze())
-
+            mel = mel_spectrogram(audio, self.n_fft, self.num_mels,
+                                  self.sampling_rate, self.hop_size, self.win_size, self.fmin, self.fmax,
+                                  center=False)
         else:
             mel = np.load(
                 os.path.join(self.base_mels_path, os.path.splitext(os.path.split(filename)[-1])[0] + '.npy'))
@@ -167,11 +158,11 @@ class MelDataset(torch.utils.data.Dataset):
                     mel = torch.nn.functional.pad(mel, (0, frames_per_seg - mel.size(2)), 'constant')
                     audio = torch.nn.functional.pad(audio, (0, self.segment_size - audio.size(1)), 'constant')
 
-            mel_loss = mel_spectrogram(audio, self.n_fft, self.num_mels,
+        mel_loss = mel_spectrogram(audio, self.n_fft, self.num_mels,
                                    self.sampling_rate, self.hop_size, self.win_size, self.fmin, self.fmax_loss,
                                    center=False)
 
-            return (mel.squeeze(), audio.squeeze(0), filename, mel_loss.squeeze())
+        return (mel.squeeze(), audio.squeeze(0), filename, mel_loss.squeeze())
 
     def __len__(self):
         return len(self.audio_files)

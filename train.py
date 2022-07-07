@@ -17,6 +17,7 @@ from meldataset import MelDataset, mel_spectrogram, get_dataset_filelist
 from models import Generator, MultiPeriodDiscriminator, MultiScaleDiscriminator, feature_loss, generator_loss,\
     discriminator_loss
 from utils import plot_spectrogram, scan_checkpoint, load_checkpoint, save_checkpoint
+from notebook import quant_ws
 
 torch.backends.cudnn.benchmark = True
 
@@ -113,7 +114,8 @@ def train(rank, a, h):
         for i, batch in enumerate(train_loader):
             if rank == 0:
                 start_b = time.time()
-            x, y, _, y_mel = batch
+            _, y, _, y_mel = batch    
+            x = quant_ws(y, h.win_size, h.hop_size).float()
             x = torch.autograd.Variable(x.to(device, non_blocking=True))
             y = torch.autograd.Variable(y.to(device, non_blocking=True))
             y_mel = torch.autograd.Variable(y_mel.to(device, non_blocking=True))
