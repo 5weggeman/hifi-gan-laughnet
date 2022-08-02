@@ -17,7 +17,7 @@ from meldataset import MelDataset, mel_spectrogram, get_dataset_filelist
 from models import Generator, MultiPeriodDiscriminator, MultiScaleDiscriminator, feature_loss, generator_loss,\
     discriminator_loss
 from utils import plot_spectrogram, scan_checkpoint, load_checkpoint, save_checkpoint
-from notebook import quant_ws
+from waveform_silhouette import quant_ws
 
 torch.backends.cudnn.benchmark = True
 
