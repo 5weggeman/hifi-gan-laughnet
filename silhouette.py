@@ -20,7 +20,7 @@ class WaveformSilhouette(torch.nn.Module):
   def forward(self, waveform):
     featmax = self.maxpool(waveform)
     featmin = -self.maxpool(-waveform)
-    feat = torch.cat((featmax,featmin), axis=-2)
+    feat = torch.cat((featmax,featmin), axis=1)
     return feat
 
 
