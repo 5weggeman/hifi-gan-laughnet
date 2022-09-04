@@ -1,7 +1,6 @@
 #!/bin/bash
 #SBATCH --time=30:00
 #SBATCH --nodes=1
-#SBATCH --ntasks=24
 #SBATCH --partition=short
 #SBATCH --job-name=preprocessing
 #SBATCH --mem=10GB
@@ -16,4 +15,6 @@ module load CUDA/10.2.89
 
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 
-python preprocessing.py $1
+python preprocessing.py
+
+deactivate
