@@ -13,8 +13,5 @@ module load SoX/14.4.2-GCCcore-10.3.0
 module load CUDA/10.2.89
 
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
-pip install pandas
 
 python extract_mel_tensors.py
-
-deactivate

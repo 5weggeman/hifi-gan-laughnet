@@ -1,9 +1,10 @@
-from meldataset import load_wav, mel_spectrogram
-import os
 import argparse
-from env import AttrDict
 import json
+from env import AttrDict
+import os
+import librosa
 import torch
+from meldataset import mel_spectrogram
 import re
 import numpy as np
 
@@ -23,8 +24,8 @@ h = AttrDict(json_config)
 for item in os.listdir(path_core):
   file_path=os.path.join(path_core, item)
   
-  if os.path.isfile(file_path):
-    audio, sampling_rate = load_wav(file_path)
+  if file_path.endswith(".wav"):
+    audio, sampling_rate = librosa.load(file_path)
     audio = audio / MAX_WAV_VALUE
     audio = torch.FloatTensor(audio)
     audio = audio.unsqueeze(0)

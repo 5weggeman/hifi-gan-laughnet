@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --time=12:00:00
+#SBATCH --time=24:00:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=training
+#SBATCH --job-name=ft
 
 source /scratch/$USER/.envs/thesis_env/bin/activate
 
@@ -16,4 +16,4 @@ module load CUDA/10.2.89
 
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 
-python train.py --fine_tuning=True --input_wavs_dir='/scratch/s5007453/hifi-gan-laughnet/laughter/output' --input_training_file='/scratch/s5007453/hifi-gan-laughnet/VCTK-0.92/training.txt' --input_validation_file='/scratch/s5007453/hifi-gan-laughnet/VCTK-0.92/validation.txt' --checkpoint_path='/scratch/s5007453/hifi-gan-laughnet/cp_hifigan' --config='config_v1.json' --checkpoint_interval='5000'
+python train.py --fine_tuning=True --input_wavs_dir='/scratch/s5007453/hifi-gan-laughnet/laughter/output' --input_training_file='/scratch/s5007453/hifi-gan-laughnet/laughter/output/training-ft.txt' --input_validation_file='/scratch/s5007453/hifi-gan-laughnet/laughter/output/validation-ft.txt' --validation_interval=50001 --checkpoint_path='/scratch/s5007453/hifi-gan-laughnet/cp_hifigan' --config='config_v1.json' --checkpoint_interval='5000'

@@ -15,6 +15,4 @@ module load CUDA/10.2.89
 
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 
-python preprocessing.py
-
-deactivate
+python preprocessing.py $1

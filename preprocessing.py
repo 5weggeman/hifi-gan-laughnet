@@ -36,34 +36,39 @@ h = AttrDict(json_config)
 #Ensuring one of two possible input options for data
 assert a.data == "VCTK" or a.data == "laughter", "The only valid arguments are: 'VCTK' or 'laughter'."
 
-def transform(split_ld):
+def transform(split_ld, data):
   for item in split_ld:
     #The line below can be commented out to check the bitdepth of the recordings
     #print(f"bd: {sox.file_info.bitdepth(item)}")
     
     #Extracting the filename and file id and creating a new file name and storage path for the new file
     fn = re.split(r"[/.]", item)[-2]
-    fid = re.match(r"p\d{3}\_\d{3}", fn).group()
     nfn = fn+"_22k.wav"
-    path_nf = os.path.join(path, "VCTK-0.92", "wavs", nfn)   
+    if data == "VCTK":
+      path_nf = os.path.join(path, "VCTK-0.92", "wavs", nfn)   
     
-    with open(os.path.join(os.getcwd(),"vctk-silence-labels","vctk-silences.0.92.txt"), 'r') as f:
-      for l_no, line in enumerate(f):
-        if fid in line:
-          _, st, et = [re.split(r"\s", line)[i] for i in range(3)]
-          break;
+      fid = re.match(r"p\d{3}\_\d{3}", fn).group()
+      with open(os.path.join(os.getcwd(),"vctk-silence-labels","vctk-silences.0.92.txt"), 'r') as f:
+        for l_no, line in enumerate(f):
+          if fid in line:
+            _, st, et = [re.split(r"\s", line)[i] for i in range(3)]
+            break;
+    else:
+      path_nf = os.path.join(path, a.data, "output", nfn)
     
     #Creating a sox transformer object
     tfm = sox.Transformer()
     tfm.set_globals(guard = True)
-    tfm.trim(float(st), float(et))
-    tfm.pad(0.25, 0.25)
+    if data == "VCTK":
+      tfm.trim(float(st), float(et))
+      tfm.pad(0.25, 0.25)
     tfm.rate(h.sampling_rate,'v')
   
     #Saving the transformed file
     tfm.build_file(input_filepath = item, output_filepath = path_nf)
 
-if a.data == "VCTK":
+data = a.data
+if data == "VCTK":
   #Preprocessing VCTK
   path_core="wav48_silence_trimmed"
   for folder_path in glob.glob(os.path.join(path,path_core,"**")):
@@ -115,4 +120,17 @@ if a.data == "VCTK":
 
   #Creating a list of all the remaining flac files in the entire directory and transforming them
   ld = glob.glob(os.path.join(path,path_core,"**","*.flac"), recursive=True)
-  transform(ld)
+  transform(ld, data)
+else:
+  #Preprocessing laughter
+  path_core="laughter"
+  
+  #Creating a list of all the flac files in the entire directory
+  ld = glob.glob(os.path.join(path,path_core,"*.flac"))
+   
+  #Writing the names of the files (after transformation)      
+  with open(os.path.join(path,path_core,"output","training-ft.txt"), "w+") as file1:
+    file1.writelines([re.split(r"[/.]", fp)[-2]+"_22k|\n" for fp in ld])
+    
+  #Transforming the files
+  transform(ld, data)  
