@@ -14,6 +14,6 @@ module load Python/3.9.5-GCCcore-10.3.0
 module load SoX/14.4.2-GCCcore-10.3.0
 module load CUDA/10.2.89
 
-pip install -r /scratch/s5007453/hifi-gan-l/requirements.txt
+pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 
 python preprocessing.py $1

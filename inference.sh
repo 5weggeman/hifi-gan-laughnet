@@ -15,4 +15,4 @@ module load CUDA/10.2.89
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 pip install pandas
 
-python inference.py $1
+python inference.py --checkpoint_file="/scratch/s5007453/hifi-gan-laughnet/cp_hifigan/g_00200000"
