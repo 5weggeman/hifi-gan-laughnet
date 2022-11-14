@@ -10,6 +10,7 @@ from env import AttrDict
 from meldataset import mel_spectrogram, MAX_WAV_VALUE, load_wav
 from models import Generator
 from waveform_silhouette import quant_ws
+import librosa
 
 h = None
 device = None
@@ -93,4 +94,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

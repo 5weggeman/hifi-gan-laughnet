@@ -4,9 +4,9 @@ from env import AttrDict
 import os
 import librosa
 import torch
-from meldataset import mel_spectrogram
 import re
 import numpy as np
+from waveform_silhouette import quant_ws
 
 MAX_WAV_VALUE = 32768.0
 path_core="/scratch/s5007453/hifi-gan-laughnet/laughter/output/"
@@ -30,11 +30,9 @@ for item in os.listdir(path_core):
     audio = torch.FloatTensor(audio)
     audio = audio.unsqueeze(0)
     
-    mel = mel_spectrogram(audio, h.n_fft, h.num_mels,
-                                  h.sampling_rate, h.hop_size, h.win_size, h.fmin, h.fmax,
-                                  center=False)
+    ws = quant_ws(audio, h.win_size, h.hop_size).float()
     
     fn = re.split(r"[/.]", item)[0]
     nfn = fn+".npy"
     
-    np.save("/scratch/s5007453/hifi-gan-laughnet/ft_dataset/"+nfn, mel)
+    np.save("/scratch/s5007453/hifi-gan-laughnet/ft_dataset/"+nfn, ws)

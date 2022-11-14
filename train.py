@@ -192,7 +192,7 @@ def train(rank, a, h):
                     val_err_tot = 0
                     with torch.no_grad():
                         for j, batch in enumerate(validation_loader):
-                             _, y, _, y_mel = batch    
+                            _, y, _, y_mel = batch    
                             x = quant_ws(y, h.win_size, h.hop_size).float()
                             y_g_hat = generator(x.to(device))
                             y_mel = torch.autograd.Variable(y_mel.to(device, non_blocking=True))

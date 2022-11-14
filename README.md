@@ -1,73 +1,56 @@
-# HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis
+# HiFi-GAN LaughNet: an implementation of Luong and Yamagishi's LaughNet (2021) for a masters thesis.
 
-### Jungil Kong, Jaehyeon Kim, Jaekyoung Bae
-
-In our [paper](https://arxiv.org/abs/2010.05646), 
-we proposed HiFi-GAN: a GAN-based model capable of generating high fidelity speech efficiently.<br/>
-We provide our implementation and pretrained models as open source in this repository.
+Luong and Yamagishi (2021) based [LaughNet](https://arxiv.org/abs/2110.04946) on the [HiFi-GAN](https://arxiv.org/abs/2010.05646) speech synthesis model from Kong, Kim, and Bae (2020).<br/>
+The major change they applied was the substitution of spectrograms for [waveform-silhouettes](https://github.com/nii-yamagishilab/waveform-silhouette-module).<br/>
+For my masters thesis I have implemented this change so I could use LaughNet to synthesise my own laughter samples to perform research with.
 
 **Abstract :**
-Several recent work on speech synthesis have employed generative adversarial networks (GANs) to produce raw waveforms. 
-Although such methods improve the sampling efficiency and memory usage, 
-their sample quality has not yet reached that of autoregressive and flow-based generative models. 
-In this work, we propose HiFi-GAN, which achieves both efficient and high-fidelity speech synthesis. 
-As speech audio consists of sinusoidal signals with various periods, 
-we demonstrate that modeling periodic patterns of an audio is crucial for enhancing sample quality. 
-A subjective human evaluation (mean opinion score, MOS) of a single speaker dataset indicates that our proposed method 
-demonstrates similarity to human quality while generating 22.05 kHz high-fidelity audio 167.9 times faster than 
-real-time on a single V100 GPU. We further show the generality of HiFi-GAN to the mel-spectrogram inversion of unseen 
-speakers and end-to-end speech synthesis. Finally, a small footprint version of HiFi-GAN generates samples 13.4 times 
-faster than real-time on CPU with comparable quality to an autoregressive counterpart.
 
-Visit our [demo website](https://jik876.github.io/hifi-gan-demo/) for audio samples.
 
 
 ## Pre-requisites
 1. Python >= 3.9.5
 2. Clone this repository.
-3. Install python requirements. Please refer [requirements.txt](requirements.txt)
-4. Download and extract the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443).
-5. Change the path_core in [preprocessing.py](preprocessing.py) (Line 16) to the path to the base folder in which you cloned this repository. 
-6. Change the path in [preprocessing.py](preprocessing.py) (Line 47) to the path to the unzipped VCTK dataset folder.
+3. Clone the [vctk-silence-labels](https://github.com/nii-yamagishilab/vctk-silence-labels) repository inside this repository.
+4. Install the Python requirements. Please refer to [requirements.txt](requirements.txt)
+5. Download the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443) and extract the VCTK-Corpus-0.92.zip folder in this repository. 
 
 ## Preprocessing
 ```
-python preprocessing.py
+python preprocessing.py --data VCTK
 ```
 
 ## Training
 ```
-python train.py --config config_v1.json
+python train.py --config config_v1.json --input_wavs_dir VCTK-0.92/wavs --input_training_file VCTK-0.92/training.txt --input_validation_file VCTK-0.92/validation.txt
 ```
-To train V2 or V3 Generator, replace `config_v1.json` with `config_v2.json` or `config_v3.json`.<br>
 Checkpoints and copy of the configuration file are saved in `cp_hifigan` directory by default.<br>
 You can change the path by adding `--checkpoint_path` option.
 
--------------------------------------------------------------------------------------------------------------------------------
-Below will be updated later:
+General loss total during training with V1 generator.<br>
+![General loss total](./GLT.png)
+The rising trend in the General loss total is not surprising given the lossy format of the min-max nature of the waveform-silhouette compared to the original mel-spectrogram.
 
+Mel-spectrogram error during training with V1 generator.<br>
+![Mel-spectrogram error](./MSE.png)
 
-Validation loss during training with V1 generator.<br>
-![validation loss](./validation_loss.png)
+Validation mel-spectrogram error during training with V1 generator.<br>
+![validation Mel-spectrogram error](./VMSE.png)
 
 ## Fine-Tuning
-1. Generate mel-spectrograms in numpy format using [Tacotron2](https://github.com/NVIDIA/tacotron2) with teacher-forcing.<br/>
-The file name of the generated mel-spectrogram should match the audio file and the extension should be `.npy`.<br/>
-Example:
+1. Extract waveform silhouettes from the source laughter in numpy format using the following command:
     ```
-    Audio File : LJ001-0001.wav
-    Mel-Spectrogram File : LJ001-0001.npy
+    python extract_ws_tensors.py
     ```
-2. Create `ft_dataset` folder and copy the generated mel-spectrogram files into it.<br/>
-3. Run the following command.
+2. Fine-tune on the source laughter using the following command: 
     ```
-    python train.py --fine_tuning True --config config_v1.json
+    python train.py --fine_tuning True --config config_v1.json --input_wavs_dir laughter/output --input_training_file laughter/output/training-ft.txt --input_validation_file laughter/output/validation_ft.txt --checkpoint_interval 5000 --training_epochs 50055
     ```
-    For other command line options, please refer to the training section.
 
+For other command line options, please refer to the training section.
 
-## Inference from wav file
-1. Make `test_files` directory and copy wav files into the directory.
+## Inference
+1. Make a `test_files` directory and copy the target laughter wav files into the directory.
 2. Run the following command.
     ```
     python inference.py --checkpoint_file [generator checkpoint file path]
@@ -75,20 +58,6 @@ Example:
 Generated wav files are saved in `generated_files` by default.<br>
 You can change the path by adding `--output_dir` option.
 
-
-## Inference for end-to-end speech synthesis
-1. Make `test_mel_files` directory and copy generated mel-spectrogram files into the directory.<br>
-You can generate mel-spectrograms using [Tacotron2](https://github.com/NVIDIA/tacotron2), 
-[Glow-TTS](https://github.com/jaywalnut310/glow-tts) and so forth.
-2. Run the following command.
-    ```
-    python inference_e2e.py --checkpoint_file [generator checkpoint file path]
-    ```
-Generated wav files are saved in `generated_files_from_mel` by default.<br>
-You can change the path by adding `--output_dir` option.
-
-
 ## Acknowledgements
-We referred to [WaveGlow](https://github.com/NVIDIA/waveglow), [MelGAN](https://github.com/descriptinc/melgan-neurips) 
-and [Tacotron2](https://github.com/NVIDIA/tacotron2) to implement this.
-
+I referred to [LaughNet](https://arxiv.org/abs/2110.04946), [HiFi-GAN](https://arxiv.org/abs/2010.05646),
+and [vctk-silence-labels](https://github.com/nii-yamagishilab/vctk-silence-labels) to implement this.

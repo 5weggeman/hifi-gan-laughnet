@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --time=30:00
 #SBATCH --partition=short
-#SBATCH --job-name=e_m_t
-#SBATCH --mem=2GB
+#SBATCH --job-name=e_ws_t
+#SBATCH --mem=10GB
 
 source /scratch/$USER/.envs/thesis_env/bin/activate
 
@@ -14,4 +14,4 @@ module load CUDA/10.2.89
 
 pip install -r /scratch/s5007453/hifi-gan-laughnet/requirements.txt
 
-python extract_mel_tensors.py
+python extract_ws_tensors.py

@@ -13,7 +13,7 @@ import multiprocessing
 random.seed(1234)
 
 #Initialising global variables
-exclude=["p228","p229","p240","p257","p281","p299","p315","p329","p376","s5"]
+exclude=["p228","p229","p240","p257","p282","p299","p315","p329","p376","s5"]
 path=os.getcwd()
 
 train_set=[]
@@ -81,15 +81,15 @@ if data == "VCTK":
         #Removing the mic2.flac files from the remaining directories
         for item2rm in glob.glob(os.path.join(folder_path, "*2.flac")):
           os.remove(item2rm)
-        #Removing 40% of the mic1.flac files from the remaining directories to get to ~24.4 hours, excluding files from the rainbow passage (needed for validation)
+        #Removing 35% of the mic1.flac files from the remaining directories to get to ~24.4 hours, excluding files from the rainbow passage (needed for validation)
         ld_folder = os.listdir(folder_path)
         rainbow_indices=[item1k for item1k in ld_folder if re.match(r".*0(0[1-9]|1[0-9]|2[0-4])\_mic1.flac$", item1k)]
         rest = list(set(ld_folder)-set(rainbow_indices))
         #Shuffling the remaining files in the folder to ensure that not the removed files are not consecutive
         random.shuffle(rest)
         #Splitting the rest files into files to remove and files to keep
-        rest_rm = rest[0:round(0.4*len(ld_folder))]
-        rest_keep = rest[round(0.4*len(ld_folder)):]
+        rest_rm = rest[0:round(0.35*len(ld_folder))]
+        rest_keep = rest[round(0.35*len(ld_folder)):]
         #Actually removing the files
         for item1rm in rest_rm:
           os.remove(os.path.join(folder_path, item1rm))
