@@ -35,6 +35,7 @@ You can change the path by adding `--checkpoint_path` option.
 
 General loss total during training with V1 generator.<br>
 ![General loss total](./GLT.png)
+
 The rising trend in the General loss total is not surprising given the lossy format of the min-max nature of the waveform-silhouette compared to the original mel-spectrogram.
 
 Mel-spectrogram error during training with V1 generator.<br>
