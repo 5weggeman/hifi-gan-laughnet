@@ -1,5 +1,4 @@
 Pillow==9.1.0
-Python==3.9.5
 SoX==14.4.2
 CUDA==10.2.89
 torch==1.11.0

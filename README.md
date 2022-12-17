@@ -16,14 +16,20 @@ For my masters thesis I have implemented this change so I could use LaughNet to 
 5. Download the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443) and extract the VCTK-Corpus-0.92.zip folder in this repository. 
 
 ## Preprocessing
-```
-python preprocessing.py --data VCTK
-```
+1. Preprocess VCTK for training
+	```
+	python preprocessing.py --data VCTK
+	```
+2. Preprocess the source laughter for finetuning
+	```
+	python preprocessing.py --data laughter
+	```
 
 ## Training
 ```
 python train.py --config config_v1.json --input_wavs_dir VCTK-0.92/wavs --input_training_file VCTK-0.92/training.txt --input_validation_file VCTK-0.92/validation.txt
 ```
+
 Checkpoints and copy of the configuration file are saved in `cp_hifigan` directory by default.<br>
 You can change the path by adding `--checkpoint_path` option.
 
@@ -42,7 +48,8 @@ Validation mel-spectrogram error during training with V1 generator.<br>
     ```
     python extract_ws_tensors.py
     ```
-2. Fine-tune on the source laughter using the following command: 
+2. Copy the filename of the source laughter file you want to finetune on from the training-ft.txt file in the laughter/output directory (including the | token!) to the validation-ft.txt file.
+3. Fine-tune on the source laughter using the following command: 
     ```
     python train.py --fine_tuning True --config config_v1.json --input_wavs_dir laughter/output --input_training_file laughter/output/training-ft.txt --input_validation_file laughter/output/validation_ft.txt --checkpoint_interval 5000 --training_epochs 50055
     ```
