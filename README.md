@@ -12,7 +12,7 @@ For my masters thesis I have implemented this change so I could use LaughNet to 
 1. Python >= 3.9.5
 2. Clone this repository.
 3. Clone the [vctk-silence-labels](https://github.com/nii-yamagishilab/vctk-silence-labels) repository inside your clone of this repository.
-4. Install the Python requirements. Please refer to [requirements.txt](requirements.txt)
+4. Install the Python requirements from [requirements.txt](requirements.txt)
 5. Download the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443) and extract the VCTK-Corpus-0.92.zip folder in this repository. 
 
 ## Preprocessing
