@@ -54,11 +54,11 @@ Validation mel-spectrogram error during training with V1 generator.<br>
 ![validation Mel-spectrogram error](./VMSE.png)
 
 ## Fine-Tuning
-1. Extract waveform silhouettes from the source laughter in numpy format using the following command:
+1. Copy the filename of the source laughter file you want to finetune on from the `training-ft.txt` file in the `laughter/output` directory to the `validation-ft.txt` file. Be sure to include the `|` token!
+2. Extract waveform silhouettes from all the source laughter in numpy format using the following command:
     ```
     python extract_ws_tensors.py
     ```
-2. Copy the filename of the source laughter file you want to finetune on from the `training-ft.txt` file in the `laughter/output` directory to the `validation-ft.txt` file. Be sure to include the `|` token!
 3. Fine-tune on the source laughter using the following command: 
     ```
     python train.py --fine_tuning True --config config_v1.json --input_wavs_dir laughter/output --input_training_file laughter/output/training-ft.txt --input_validation_file laughter/output/validation_ft.txt --checkpoint_interval 5000 --training_epochs 50055
