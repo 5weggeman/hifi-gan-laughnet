@@ -47,11 +47,13 @@ Hence we should take a look at the Mel-spectrogram error:
 Mel-spectrogram error during training with V1 generator.<br>
 ![Mel-spectrogram error](./MSE.png)
 
-The Mel-spectrogram error decreases normally and then seems to be steady. Although this isn't really improving it's at least not getting worse.
-The same holds for the validation mel-spectrogram error:
+The Mel-spectrogram error decreases normally and then stabilises, but at least it's not getting worse.
+To ensure that it is performing well we should also check the validation Mel-spectrogram error:
 
 Validation mel-spectrogram error during training with V1 generator.<br>
 ![validation Mel-spectrogram error](./VMSE.png)
+
+Here too the error doesn't seem to improve that much, but at least it's not getting worse either, hence it should be fine.
 
 ## Fine-Tuning
 1. Copy the filename of the source laughter file you want to finetune on from the `training-ft.txt` file in the `laughter/output` directory to the `validation-ft.txt` file. Be sure to include the `|` token!
@@ -78,3 +80,6 @@ You can change the path by adding `--output_dir` option.
 ## Acknowledgements
 I referred to [LaughNet](https://arxiv.org/abs/2110.04946), [HiFi-GAN](https://arxiv.org/abs/2010.05646),
 and [vctk-silence-labels](https://github.com/nii-yamagishilab/vctk-silence-labels) to implement this.
+
+## Questions/Remarks
+If you have any questions or remarks about this repository, please raise an issue or send me a message. 
