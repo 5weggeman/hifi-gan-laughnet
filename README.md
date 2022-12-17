@@ -47,7 +47,7 @@ Hence we should take a look at the Mel-spectrogram error:
 Mel-spectrogram error during training with V1 generator.<br>
 ![Mel-spectrogram error](./MSE.png)
 
-The Mel-spectrogram error decreases normally and then seems to be steady. Although this isn't really improving it'S at least not getting worse.
+The Mel-spectrogram error decreases normally and then seems to be steady. Although this isn't really improving it's at least not getting worse.
 The same holds for the validation mel-spectrogram error:
 
 Validation mel-spectrogram error during training with V1 generator.<br>
