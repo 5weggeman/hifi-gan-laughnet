@@ -16,16 +16,17 @@ For my masters thesis I have implemented this change so I could use LaughNet to 
 5. Download the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443) and extract the VCTK-Corpus-0.92.zip folder in this repository. 
 
 ## Preprocessing
-1. Preprocess VCTK for training
+1. Preprocess VCTK for training using the following command:
 	```
 	python preprocessing.py --data VCTK
 	```
-2. Preprocess the source laughter for finetuning
+2. Preprocess the source laughter for finetuning using the following command:
 	```
 	python preprocessing.py --data laughter
 	```
 
 ## Training
+Train the model using the following command:
 ```
 python train.py --config config_v1.json --input_wavs_dir VCTK-0.92/wavs --input_training_file VCTK-0.92/training.txt --input_validation_file VCTK-0.92/validation.txt
 ```
