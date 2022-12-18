@@ -77,9 +77,10 @@ For other command line options, please refer to the training section.
 Generated wav files are saved in `generated_files` by default.<br>
 You can change the path by adding `--output_dir` option.
 
+## Final Note
+The current settings yield unsatisfactory results. This is likely caused by the fact that, due to a lack of available memory, I was only able to use segments of 3.75 seconds and a batch size of 8 (See [config_v1.json](./config_v1.json), compared to the 6 second segments and batch size of 16 that were used by Luong and Yamagishi (2021).
+Consequently, this implementation had significantly less data to work with than the model of Luong and Yamagishi (2021).
+
 ## Acknowledgements
 I referred to [LaughNet](https://arxiv.org/abs/2110.04946), [HiFi-GAN](https://arxiv.org/abs/2010.05646),
 and [vctk-silence-labels](https://github.com/nii-yamagishilab/vctk-silence-labels) to implement this.
-
-## Questions/Remarks
-If you have any questions or remarks about this repository, please raise an issue or send me a message. 
