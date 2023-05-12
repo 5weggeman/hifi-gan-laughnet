@@ -85,7 +85,7 @@ if data == "VCTK":
         ld_folder = os.listdir(folder_path)
         rainbow_indices=[item1k for item1k in ld_folder if re.match(r".*0(0[1-9]|1[0-9]|2[0-4])\_mic1.flac$", item1k)]
         rest = list(set(ld_folder)-set(rainbow_indices))
-        #Shuffling the remaining files in the folder to ensure that not the removed files are not consecutive
+        #Shuffling the remaining files in the folder to ensure that the removed files are not consecutive
         random.shuffle(rest)
         #Splitting the rest files into files to remove and files to keep
         rest_rm = rest[0:round(0.35*len(ld_folder))]
