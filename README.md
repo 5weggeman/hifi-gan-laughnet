@@ -6,7 +6,7 @@ For my masters thesis I have implemented this change so I could use LaughNet to 
 
 ### Abstract:
 
-**Purpose:** The purpose of this research was to enhance the naturalness of synthesised speech by incorporating authentic laughter data into the laughter synthesis process of the state-of-the-art model LaughNet (Luong & Yamagishi, 2021b).
+**Purpose:** The purpose of this research was to enhance the naturalness of synthesised speech by incorporating authentic laughter data into the laughter synthesis process of the state-of-the-art model LaughNet (Luong & Yamagishi, 2021).
 
 **Method:** A Support Vector Machine (SVM) was trained to classify acted and spontaneous human laughter based on their acoustic features to confirm the differences between them at the acoustic level. Factor analysis was applied to identify the most relevant acoustic features in determining authenticity. Then the influence of the synthesis procedure of LaughNet on these features was researched by examining the waveform silhouette format and by generating synthetic laughter using LaughNet, classifying it with the SVM, and comparing the classification performance to that of human laughter. The ability of human listeners to recognise the difference between human and synthetic laughter was evaluated using a listening test.
 
